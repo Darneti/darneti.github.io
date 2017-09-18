@@ -16,23 +16,23 @@ body {
 
 .wrapper {
 	position: absolute;
-	min-height: 600px;
-	width: 1000px;
-    left: 50%;
-    transform: translate(-50%);
+	min-height: 60%;
+	width: 50%;
+        left: 50%;
+        transform: translate(-50%);
 	margin-top: -250px;
 }
 
 .header, .content, .footer {
 	width: 70%;
-	min-height: 200px;
+	min-height: 33%;
 	background: #FF8C00;
 	float: right;
 }
 
 .sidebar {
 	width: 30%;
-	min-height: 600px;
+	min-height: 99%;
 	background: #8B0000;
 	float: left;
 }
