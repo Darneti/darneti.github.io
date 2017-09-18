@@ -9,7 +9,7 @@ body {
 .header-picture {
 	/*display: block;*/
 	background: url(http://moondog.pro/wp-content/uploads/2015/10/headermoondog-fantasy.jpg) no-repeat center;
-	height: 700px;
+	height: 30%;
 	width: 100%;
 	background-size: cover;
 }
