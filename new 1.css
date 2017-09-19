@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	width: 1080px;
+	width: 100%;
 	font-family: 'Brush Script MT', cursive;
 	font-size: 1.25em;
 	background : #000000;
@@ -22,7 +22,7 @@ body {
 	width: 70%;
         left: 50%;
         transform: translate(-50%);
-	margin-top: 350px;
+	margin-top: 25%;
 }
 
 .header, .content, .footer {
