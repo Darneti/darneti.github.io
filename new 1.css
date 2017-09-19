@@ -21,8 +21,8 @@ body {
 	min-height: 2300px;
 	width: 70%;
         left: 50%;
-        transform: translate(-50%);
-	margin-top: 25%;
+        /*transform: translate(-50%);*/
+	: 20%;
 }
 
 .header, .content, .footer {
