@@ -22,7 +22,7 @@ body {
 	width: 70%;
         left: 50%;
         transform: translate(-50%);
-	: 20%;
+	margin-top: 20%;
 }
 
 .header, .content, .footer {
