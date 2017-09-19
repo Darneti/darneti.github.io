@@ -2,37 +2,37 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Brush Script MT', cursive;
-	font-size: 15em;
+	font-size: 15pt;
 	background : #000000;
 }
 
 .header-picture {
 	display: block;
-	background: url(http://moondog.pro/wp-content/uploads/2015/10/headermoondog-fantasy.jpg) no-repeat center;
-	height: 30%;
-	width: 100%;
+	background: url(/header-img.png) no-repeat center;
+	height: 500px;
+	max-width: 1056px;
 	background-size: cover;
 }
 
 .wrapper {
 	position: absolute;
-	height: 60%;
-	width: 100%;
-        left: 50%;
-        transform: translate(-50%);
+	min-height: 2300px;
+	width: 800px;
+    left: 50%;
+    transform: translate(-50%);
 	margin-top: -250px;
 }
 
 .header, .content, .footer {
 	width: 70%;
-	height: 33%;
-	background: #FF8C00;
+	min-height: 700px;
+	background: #a6a6a6;
 	float: right;
 }
 
 .sidebar {
 	width: 30%;
-	height: 99%;
+	min-height: 2100px;
 	background: #8B0000;
 	float: left;
 }
