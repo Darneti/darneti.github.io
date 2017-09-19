@@ -10,10 +10,12 @@ body {
 	position: absolute;
 	display: block;
 	background: url(/header-img.png) no-repeat center bottom;
-	height: 500px;
+	max-height: 500px;
 	max-width: 1056px;
 	background-size: cover;
 	text-align: center;
+	left: 50%;
+        transform: translate(-50%);
 }
 
 .wrapper {
