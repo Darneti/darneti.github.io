@@ -7,7 +7,7 @@ body {
 }
 
 .header-picture {
-	position: relative;
+	position: absolute;
 	display: block;
 	background: url(/header-img.png) no-repeat center bottom;
 	height: 500px;
