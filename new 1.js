@@ -11,7 +11,7 @@ $('#js-scroll-up').click( function(){
 });
 
 $(document).scroll( function() {
-	if ( $(document).scrollTop() > 0 ) {
+	if ( $(document).scrollTop() > 500 ) {
 		$('#js-scroll-up').fadeIn();
 		$('#js-scroll-up').text('Наверх');
 	} else {
