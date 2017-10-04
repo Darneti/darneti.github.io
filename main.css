@@ -259,6 +259,12 @@ textarea {
 		
 	}
 	
+	.copyright {
+	
+                padding-bottom: 10%;
+	
+	}
+	
 	.second-warpper{
 		max-width: 100%;
 		margin: 0;
@@ -286,10 +292,10 @@ textarea {
 		position: absolute;
 		margin: 0;
 		padding: 0;
-		width: 5%;
-		height: 100%;
+		width: 0px;
+		height: 0px;
 		font-size: 0px;
-        line-height: 0px;
+                line-height: 0px;
 	}
 	
 	h1, h2, h3 {
