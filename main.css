@@ -179,10 +179,6 @@ main {
     color: #525252;
 }
 
-/*.button span {
-	
-}*/
-
 .overlay {
 	position: fixed;
 	width: 100%;
@@ -201,7 +197,7 @@ main {
 	transform: translate(-50%, -50%);
 	padding: 40px;
 	box-sizing: border-box;
-	background-color: #ff5252;
+	background: rgb(245, 245, 245) radial-gradient(150% 100% at 60% 5px, rgba(189, 189, 189, 0.2), rgba(10, 10, 0, 10));
 	color: #fff;
 }
 
@@ -236,6 +232,16 @@ main {
 	left: -4px;
 }
 
+input, textarea {
+	width: 80%;
+	border-radius: 3px;
+	margin: 2px;
+}
+
+textarea {
+	min-height: 100px;
+}
+
 @media screen and (max-width: 768px) {
 
 	.popup {
@@ -243,4 +249,60 @@ main {
 		height: 100%;
 		font-size: 0.4rem;
 	}
+	
+	.button {
+		width: 100%;
+		border-radius: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		
+	}
+	
+	.second-warpper{
+		max-width: 100%;
+		margin: 0;
+	}
+	
+	.header, .content, .footer, .sidebar {
+		width: 100%;
+		margin: 0;
+	}
+	
+	.menu-list {
+		margin: 0;
+		padding: 0;
+	}
+	
+	.avotarka, .history{
+		border-radius: 3px;
+	}
+	
+	.div-header-picture, .header-picture {
+		display: none;
+	}
+	
+	.scroll-up {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		width: 0px;
+		height: 0px;
+		font-size: 0px;
+        line-height: 0px;
+	}
+	
+	h1, h2, h3 {
+		font-size: 1.2rem;
+		line-height: 20px;
+	}
+	
+	p {
+		font-size: 0.8rem;
+	}
+	
+	p span {
+		font-size: 1rem;
+	}
+	
 }
