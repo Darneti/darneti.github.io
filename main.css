@@ -282,13 +282,7 @@ textarea {
 		display: none;
 	}
 	
-	.scroll-up {
-		
-		width: 5%;
-		height: 100%;
-		font-size: 0px;
-        line-height: 0px;
-	}
+	
 	
 	h1, h2, h3 {
 		font-size: 1.2rem;
