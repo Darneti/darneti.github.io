@@ -242,7 +242,7 @@ textarea {
 	min-height: 100px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 960px) {
 
 	.popup {
 		width: 100%;
