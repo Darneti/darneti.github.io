@@ -242,6 +242,7 @@ h1 span {
 }
 
 .scroll-up {
+    max-width: 50px;
     width: 8%;
     height: 100%;
     position: fixed;
