@@ -51,7 +51,7 @@ body {
 }
 
 .avotarka {
-	background-image: url("avotarka-picture.png");
+	background: rgba(107, 107, 107, 0.38) radial-gradient(150% 100% at 50% 5px, rgba(138, 138, 138, 0.2), rgba(10, 10, 0, 0.78));
     height: 100%;
 	border-radius: 20px;
 	text-align: center;
