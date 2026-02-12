@@ -1,4 +1,4 @@
-// Кнопка «Наверх/Вниз»
+// Кнопка «Вгору/Вниз»
 $(document).ready(function(){
 $(window).scroll(function () {
 	if ($(this).scrollTop() > 400) {
@@ -10,139 +10,108 @@ $('#js-scroll-up').click(function () {
 
 
 
-// Модальное окно
+// Модальне вікно
 
-// открыть по кнопке
-$('.js-button-campaign').click(function() { 
+// відкрити за кнопкою
+$('.js-button-campaign').click(function() {
 	$('.js-overlay-campaign').fadeIn();
-	
+
 });
 
-// закрыть на крестик
-$('.js-close-campaign').click(function() { 
+// закрити на хрестик
+$('.js-close-campaign').click(function() {
 	$('.js-overlay-campaign').fadeOut();
-	
+
 });
 
-// закрыть по клику вне окна
-$(document).mouseup(function (e) { 
+// закрити по кліку поза вікном
+$(document).mouseup(function (e) {
 	var popup = $('.js-popup-campaign');
 	if (e.target!=popup[0]&&popup.has(e.target).length === 0){
 		$('.js-overlay-campaign').fadeOut();
-		
+
 	}
+});
+
+// Обробка форми
+$('.contact-form').submit(function(e) {
+	e.preventDefault();
+
+	// Отримання значень форми
+	var name = $(this).find('input[name="name"]').val();
+	var email = $(this).find('input[name="email"]').val();
+	var subject = $(this).find('input[name="subject"]').val();
+	var message = $(this).find('textarea[name="message"]').val();
+
+	// Тут можна додати відправку на сервер
+	// Наприклад через AJAX або використати сервіс типу Formspree
+
+	// Поки що показуємо повідомлення
+	alert('Дякуємо за ваше повідомлення, ' + name + '!\n\nВаша форма буде відправлена після налаштування сервера.');
+
+	// Очищення форми
+	$(this)[0].reset();
+
+	// Закриття модального вікна
+	$('.js-overlay-campaign').fadeOut();
 });
 
 
 
 //Sidebar===========================================================================================================
-(function($) {
+// Сучасний бургер-меню на чистому JavaScript (без jQuery)
+document.addEventListener('DOMContentLoaded', function() {
+	const burgerButton = document.getElementById('burger-button');
+	const menuList = document.getElementById('main-menu');
 
-  $.fn.menumaker = function(options) {
-      
-      var cssmenu = $(this), settings = $.extend({
-        title: "Меню",
-        format: "dropdown",
-        sticky: false
-      }, options);
+	if (burgerButton && menuList) {
+		// Обробник кліку на кнопку бургер-меню
+		burgerButton.addEventListener('click', function() {
+			// Перемикаємо активний стан
+			const isActive = this.classList.toggle('active');
+			menuList.classList.toggle('active');
 
-      return this.each(function() {
-        cssmenu.prepend('<div id="menu-button">' + settings.title + '</div>');
-        $(this).find("#menu-button").on('click', function(){
-          $(this).toggleClass('menu-opened');
-          var mainmenu = $(this).next('ul');
-          if (mainmenu.hasClass('open')) { 
-            mainmenu.hide().removeClass('open');
-          }
-          else {
-            mainmenu.show().addClass('open');
-            if (settings.format === "dropdown") {
-              mainmenu.find('ul').show();
-            }
-          }
-        });
+			// Оновлюємо ARIA атрибути для доступності
+			this.setAttribute('aria-expanded', isActive);
+			this.setAttribute('aria-label', isActive ? 'Закрити меню' : 'Відкрити меню');
+		});
 
-        cssmenu.find('li ul').parent().addClass('parent');
+		// Закриття меню при зміні розміру вікна (якщо перейшли на десктоп)
+		let resizeTimer;
+		window.addEventListener('resize', function() {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(function() {
+				if (window.innerWidth > 1200) {
+					burgerButton.classList.remove('active');
+					menuList.classList.remove('active');
+					burgerButton.setAttribute('aria-expanded', 'false');
+					burgerButton.setAttribute('aria-label', 'Відкрити меню');
+				}
+			}, 250);
+		});
 
-        multiTg = function() {
-          cssmenu.find(".parent").prepend('<span class="submenu-button"></span>');
-          cssmenu.find('.submenu-button').on('click', function() {
-            $(this).toggleClass('submenu-opened');
-            if ($(this).siblings('ul').hasClass('open')) {
-              $(this).siblings('ul').removeClass('open').hide();
-            }
-            else {
-              $(this).siblings('ul').addClass('open').show();
-            }
-          });
-        };
+		// Закриття меню при натисканні Escape
+		document.addEventListener('keydown', function(e) {
+			if (e.key === 'Escape' && burgerButton.classList.contains('active')) {
+				burgerButton.classList.remove('active');
+				menuList.classList.remove('active');
+				burgerButton.setAttribute('aria-expanded', 'false');
+				burgerButton.setAttribute('aria-label', 'Відкрити меню');
+				burgerButton.focus();
+			}
+		});
 
-        if (settings.format === 'multitoggle') multiTg();
-        else cssmenu.addClass('dropdown');
-
-        if (settings.sticky === true) cssmenu.css('position', 'fixed');
-
-        resizeFix = function() {
-          if ($( window ).width() > 1200) {
-            cssmenu.find('ul').show();
-          }
-
-          if ($(window).width() <= 1200) {
-            cssmenu.find('ul').hide().removeClass('open');
-          }
-        };
-        resizeFix();
-        return $(window).on('resize', resizeFix);
-
-      });
-  };
-})(jQuery);
-
-(function($){
-$(document).ready(function(){
-
-$(document).ready(function() {
-  $("#hmenu").menumaker({
-    title: "Меню",
-    format: "multitoggle"
-  });
-
-  $("#hmenu").prepend("<div id='menu-line'></div>");
-
-var foundActive = false, activeElement, linePosition = 0, menuLine = $("#hmenu #menu-line"), lineWidth, defaultPosition, defaultWidth;
-
-$("#hmenu > ul > li").each(function() {
-  if ($(this).hasClass('active')) {
-    activeElement = $(this);
-    foundActive = true;
-  }
+		// Закриття меню при кліку на пункт меню (на мобільних)
+		const menuLinks = menuList.querySelectorAll('a');
+		menuLinks.forEach(function(link) {
+			link.addEventListener('click', function() {
+				if (window.innerWidth <= 1200) {
+					burgerButton.classList.remove('active');
+					menuList.classList.remove('active');
+					burgerButton.setAttribute('aria-expanded', 'false');
+					burgerButton.setAttribute('aria-label', 'Відкрити меню');
+				}
+			});
+		});
+	}
 });
-
-if (foundActive === false) {
-  activeElement = $("#hmenu > ul > li").first();
-}
-
-defaultWidth = lineWidth = activeElement.width();
-
-defaultPosition = linePosition = activeElement.position().left;
-
-menuLine.css("width", lineWidth);
-menuLine.css("left", linePosition);
-
-$("#hmenu > ul > li").hover(function() {
-  activeElement = $(this);
-  lineWidth = activeElement.width();
-  linePosition = activeElement.position().left;
-  menuLine.css("width", lineWidth);
-  menuLine.css("left", linePosition);
-}, 
-function() {
-  menuLine.css("left", defaultPosition);
-  menuLine.css("width", defaultWidth);
-});
-
-});
-
-
-});
-})(jQuery);
