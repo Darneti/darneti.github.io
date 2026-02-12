@@ -1,0 +1,14 @@
+# Дозволити всім роботам індексувати весь сайт
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://darneti.github.io/sitemap.xml
+
+# Заборонити індексування специфічних файлів
+Disallow: /.git/
+Disallow: /.claude/
+Disallow: /.circleci/
+
+# Час між запитами (секунди)
+Crawl-delay: 0

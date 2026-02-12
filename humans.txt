@@ -1,0 +1,25 @@
+/* TEAM */
+Author: Олександр
+Location: Київ, Україна
+
+/* SITE */
+Last update: 2026-02-12
+Standards: HTML5, CSS3, JavaScript ES2024
+Components: Vanilla JS (No jQuery!), CSS Grid, IntersectionObserver API
+Software: Claude Code, VS Code, Git
+
+/* MODERNIZATION 2026 */
+✓ Removed jQuery dependency (-268KB!)
+✓ Modern vanilla JavaScript
+✓ IntersectionObserver for scroll button
+✓ Toast notifications system
+✓ Form validation
+✓ Accessibility improvements (ARIA, focus-visible)
+✓ CSS Grid layout
+✓ WebP images support (planned)
+✓ SEO optimizations
+
+/* THANKS */
+Claude Sonnet 4.5 - for modernization assistance
+GitHub Pages - for hosting
+Google Fonts - for typography

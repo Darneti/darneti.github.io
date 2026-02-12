@@ -1,60 +1,269 @@
-// Кнопка «Вгору/Вниз»
-$(document).ready(function(){
-$(window).scroll(function () {
-	if ($(this).scrollTop() > 400) {
-		$('#js-scroll-up').fadeIn();
-		} else {$('#js-scroll-up').fadeOut();}});
-$('#js-scroll-up').click(function () {
-	$('body,html').animate({scrollTop: 0}, 400); return false;});
+// ===== Кнопка "Вгору" з IntersectionObserver =====
+document.addEventListener('DOMContentLoaded', function() {
+	const scrollUpBtn = document.getElementById('js-scroll-up');
+	const firstWrapper = document.querySelector('.first-wrapper');
+
+	if (!scrollUpBtn || !firstWrapper) return;
+
+	// IntersectionObserver для показу/приховування кнопки
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					scrollUpBtn.classList.remove('visible');
+				} else {
+					scrollUpBtn.classList.add('visible');
+				}
+			});
+		},
+		{
+			rootMargin: '-200px 0px 0px 0px',
+			threshold: 0
+		}
+	);
+
+	observer.observe(firstWrapper);
+
+	// Плавна прокрутка вгору
+	scrollUpBtn.addEventListener('click', () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+	});
 });
 
+// ===== Модальне вікно =====
+document.addEventListener('DOMContentLoaded', function() {
+	const openBtn = document.querySelector('.js-button-campaign');
+	const overlay = document.querySelector('.js-overlay-campaign');
+	const closeBtn = document.querySelector('.js-close-campaign');
+	const popup = document.querySelector('.js-popup-campaign');
 
+	if (!overlay || !openBtn) return;
 
-// Модальне вікно
+	// Відкрити модальне вікно
+	openBtn.addEventListener('click', () => {
+		overlay.style.display = 'block';
+		setTimeout(() => {
+			overlay.style.opacity = '1';
+		}, 10);
+	});
 
-// відкрити за кнопкою
-$('.js-button-campaign').click(function() {
-	$('.js-overlay-campaign').fadeIn();
+	// Закрити на хрестик
+	closeBtn?.addEventListener('click', () => {
+		closeOverlay();
+	});
 
-});
+	// Закрити по кліку поза вікном
+	overlay?.addEventListener('click', (e) => {
+		if (!popup.contains(e.target)) {
+			closeOverlay();
+		}
+	});
 
-// закрити на хрестик
-$('.js-close-campaign').click(function() {
-	$('.js-overlay-campaign').fadeOut();
+	// Закрити на Escape
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && overlay.style.display === 'block') {
+			closeOverlay();
+		}
+	});
 
-});
-
-// закрити по кліку поза вікном
-$(document).mouseup(function (e) {
-	var popup = $('.js-popup-campaign');
-	if (e.target!=popup[0]&&popup.has(e.target).length === 0){
-		$('.js-overlay-campaign').fadeOut();
-
+	function closeOverlay() {
+		overlay.style.opacity = '0';
+		setTimeout(() => {
+			overlay.style.display = 'none';
+		}, 300);
 	}
 });
 
-// Обробка форми
-$('.contact-form').submit(function(e) {
-	e.preventDefault();
+// ===== Обробка форми з валідацією =====
+document.addEventListener('DOMContentLoaded', function() {
+	const form = document.querySelector('.contact-form');
 
-	// Отримання значень форми
-	var name = $(this).find('input[name="name"]').val();
-	var email = $(this).find('input[name="email"]').val();
-	var subject = $(this).find('input[name="subject"]').val();
-	var message = $(this).find('textarea[name="message"]').val();
+	if (!form) return;
 
-	// Тут можна додати відправку на сервер
-	// Наприклад через AJAX або використати сервіс типу Formspree
+	// Валідація в реальному часі
+	const inputs = form.querySelectorAll('input, textarea');
+	inputs.forEach(input => {
+		input.addEventListener('blur', () => validateField(input));
+		input.addEventListener('input', () => {
+			if (input.classList.contains('error')) {
+				validateField(input);
+			}
+		});
+	});
 
-	// Поки що показуємо повідомлення
-	alert('Дякуємо за ваше повідомлення, ' + name + '!\n\nВаша форма буде відправлена після налаштування сервера.');
+	// Відправка форми
+	form.addEventListener('submit', async (e) => {
+		e.preventDefault();
 
-	// Очищення форми
-	$(this)[0].reset();
+		// Валідація всіх полів
+		let isValid = true;
+		inputs.forEach(input => {
+			if (!validateField(input)) {
+				isValid = false;
+			}
+		});
 
-	// Закриття модального вікна
-	$('.js-overlay-campaign').fadeOut();
+		if (!isValid) {
+			showToast('Будь ласка, заповніть всі поля коректно', 'error');
+			return;
+		}
+
+		// Збір даних
+		const formData = {
+			name: form.querySelector('[name="name"]').value,
+			email: form.querySelector('[name="email"]').value,
+			subject: form.querySelector('[name="subject"]').value,
+			message: form.querySelector('[name="message"]').value,
+			timestamp: new Date().toISOString()
+		};
+
+		// Симуляція відправки (можна інтегрувати з Formspree)
+		try {
+			await new Promise(resolve => setTimeout(resolve, 500));
+
+			// Успіх
+			showToast(`Дякуємо, ${formData.name}! Ваше повідомлення отримано.`, 'success');
+			form.reset();
+
+			// Закрити модальне вікно через 2 секунди
+			setTimeout(() => {
+				const overlay = document.querySelector('.js-overlay-campaign');
+				if (overlay) {
+					overlay.style.opacity = '0';
+					setTimeout(() => {
+						overlay.style.display = 'none';
+					}, 300);
+				}
+			}, 2000);
+
+		} catch (error) {
+			showToast('Помилка відправки. Спробуйте пізніше.', 'error');
+			console.error('Form submission error:', error);
+		}
+	});
+
+	// Валідація поля
+	function validateField(field) {
+		const value = field.value.trim();
+		let isValid = true;
+		let errorMessage = '';
+
+		// Перевірка обов'язкових полів
+		if (field.required && !value) {
+			isValid = false;
+			errorMessage = 'Це поле обов\'язкове';
+		}
+
+		// Валідація email
+		if (field.type === 'email' && value) {
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (!emailRegex.test(value)) {
+				isValid = false;
+				errorMessage = 'Введіть коректний email';
+			}
+		}
+
+		// Мінімальна довжина
+		if (field.name === 'name' && value && value.length < 2) {
+			isValid = false;
+			errorMessage = 'Ім\'я занадто коротке';
+		}
+
+		if (field.name === 'message' && value && value.length < 10) {
+			isValid = false;
+			errorMessage = 'Повідомлення занадто коротке (мінімум 10 символів)';
+		}
+
+		// Відображення помилки
+		const parent = field.parentElement;
+		if (!parent) return isValid;
+
+		let errorElement = parent.querySelector('.field-error');
+
+		if (!isValid) {
+			field.classList.add('error');
+			field.setAttribute('aria-invalid', 'true');
+
+			if (!errorElement) {
+				errorElement = document.createElement('span');
+				errorElement.className = 'field-error';
+				errorElement.setAttribute('role', 'alert');
+				parent.appendChild(errorElement);
+			}
+			errorElement.textContent = errorMessage;
+		} else {
+			field.classList.remove('error');
+			field.removeAttribute('aria-invalid');
+			if (errorElement) {
+				errorElement.remove();
+			}
+		}
+
+		return isValid;
+	}
 });
+
+// ===== Toast Notifications =====
+function showToast(message, type = 'info') {
+	// Видалити старі toast
+	const existingToast = document.querySelector('.toast');
+	if (existingToast) {
+		existingToast.remove();
+	}
+
+	// Створити toast
+	const toast = document.createElement('div');
+	toast.className = `toast toast-${type}`;
+	toast.setAttribute('role', 'alert');
+	toast.setAttribute('aria-live', 'polite');
+
+	// Іконка
+	const icon = document.createElement('span');
+	icon.className = 'toast-icon';
+	icon.setAttribute('aria-hidden', 'true');
+	icon.textContent = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+
+	// Текст
+	const text = document.createElement('span');
+	text.className = 'toast-text';
+	text.textContent = message;
+
+	// Кнопка закриття
+	const closeBtn = document.createElement('button');
+	closeBtn.className = 'toast-close';
+	closeBtn.setAttribute('aria-label', 'Закрити повідомлення');
+	closeBtn.innerHTML = '&times;';
+	closeBtn.addEventListener('click', () => hideToast(toast));
+
+	toast.appendChild(icon);
+	toast.appendChild(text);
+	toast.appendChild(closeBtn);
+	document.body.appendChild(toast);
+
+	// Анімація появи
+	setTimeout(() => toast.classList.add('visible'), 10);
+
+	// Автоматичне приховування через 5 секунд
+	const hideTimeout = setTimeout(() => hideToast(toast), 5000);
+
+	// Зберегти timeout для можливості скасування
+	toast.dataset.hideTimeout = hideTimeout;
+}
+
+function hideToast(toast) {
+	if (!toast) return;
+
+	// Скасувати автоматичне приховування
+	if (toast.dataset.hideTimeout) {
+		clearTimeout(Number(toast.dataset.hideTimeout));
+	}
+
+	toast.classList.remove('visible');
+	setTimeout(() => toast.remove(), 300);
+}
 
 
 
